@@ -17,7 +17,7 @@ import {
   UngroupGroupInput,
   UpdateGroupInput,
 } from "./bridge/protocol.js";
-import { loadOrCreateCredentials, type BridgeCredentials } from "./token.js";
+import { credentialsPath, loadOrCreateCredentials, type BridgeCredentials } from "./token.js";
 import { activateTabText, closeTabText, getTabsText } from "./tools/tabs.js";
 import {
   addTabsToGroupText,
@@ -218,7 +218,11 @@ async function runServer(): Promise<void> {
 
   try {
     await bridge.start();
-    log(`bridge listening on 127.0.0.1:${creds.port}; pair the extension with token ${creds.token}`);
+    // Never log the token: stderr is captured into the MCP client's on-disk log
+    // files. Retrieve it on demand via get_pairing_info or the 0600 creds file.
+    log(
+      `bridge listening on 127.0.0.1:${creds.port}. Pair the extension with the get_pairing_info tool (token stored in ${credentialsPath()}).`
+    );
   } catch (error) {
     log(
       `WARNING: bridge failed to start (${
