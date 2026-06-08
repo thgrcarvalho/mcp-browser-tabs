@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "MCP Browser Tabs Bridge",
+  "version": "1.3.0",
+  "description": "Bridges the mcp-browser-tabs MCP server to native Chrome tab groups. Touches ONLY tabs and tab groups — never cookies, sessions, history, or page content.",
+  "minimum_chrome_version": "116",
+  "permissions": ["tabs", "tabGroups", "storage", "alarms"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}
